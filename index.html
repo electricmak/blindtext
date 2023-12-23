@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Logo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 5000px;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 90%;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        header.dark-mode {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        header.dark-mode .logo {
+            opacity: 0;
+        }
+
+        header.dark-mode:not(.scrolled) .logo {
+            opacity: 0;
+        }
+
+        header:not(.dark-mode) .logo {
+            opacity: 1;
+        }
+
+        #toggle-btn {
+            cursor: pointer;
+        }
+
+        #toggle-btn i {
+            font-size: 24px;
+            color: #aaa;
+        }
+
+        main {
+            padding: 80px 20px 20px;
+        }
+
+        .navigation-bars {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: #fff;
+            transition: opacity 0.3s ease;
+            transition: 0.3s;
+            opacity: ;
+            /* Set initial opacity to 0 */
+        }
+
+        header.scrolled .navigation-bars {
+            opacity: 1;
+            /* Show navigation bars when scrolled */
+        }
+
+        .navigation-bars a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 24px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header" class="light-mode">
+        <div class="logo">
+            Your Logo
+        </div>
+        <div id="toggle-btn">
+            <i class="fas fa-moon"></i>
+        </div>
+    </header>
+
+    <main>
+        <!-- Your page content goes here -->
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+        </p>
+    </main>
+
+    <div class="navigation-bars">
+        <!-- Updated navigation with Font Awesome icons -->
+        <a href="#"><i class="fas fa-home"></i></a>
+        <a href="#"><i class="fas fa-info-circle"></i></a>
+        <a href="#"><i class="fas fa-cogs"></i></a>
+        <a href="#"><i class="fas fa-envelope"></i></a>
+        <a href="#"><i class="fas fa-question-circle"></i></a>
+    </div>
+
+    <script>
+        const header = document.getElementById('header');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const logo = document.querySelector('.logo');
+        const navigationBars = document.querySelector('.navigation-bars');
+
+        let lastScrollPosition = 0;
+        window.addEventListener('scroll', () => {
+            const currentScrollPosition = window.scrollY;
+
+            if (currentScrollPosition > lastScrollPosition) {
+                header.style.transform = 'translateY(-100%)';
+                header.classList.add('scrolled');
+                logo.style.transform = 'translateY(-100%)';
+                navigationBars.style.transform = 'translateY(0)'; // Apply translateY to navigation bars
+                navigationBars.style.opacity = 10;
+            } else {
+                header.style.transform = 'translateY(0)';
+                header.classList.remove('scrolled');
+                logo.style.transform = 'translateY(0)';
+                navigationBars.style.transform = 'translateY(100%)'; // Reset translateY for navigation bars
+                navigationBars.style.opacity = 1;
+            }
+
+            lastScrollPosition = currentScrollPosition;
+        });
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            header.classList.toggle('dark-mode');
+            toggleBtn.querySelector('i').classList.toggle('fa-sun');
+            logo.style.opacity = 1;
+
+            // Toggle navigation bars when dark mode is activated
+            if (document.body.classList.contains('dark-mode')) {
+                navigationBars.style.opacity = 1;
+            } else {
+                navigationBars.style.opacity = header.classList.contains('scrolled') ? 0: 1;
+            }
+        });
+    </script>
+
+</body>
+</html>
